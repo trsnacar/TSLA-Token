@@ -34,7 +34,7 @@ A Solidity smart contract that uses [Chainlink](https://chain.link/) to fetch of
 ## Tech stack
 
 - [Solidity](https://soliditylang.org/) `0.8.19`
-- [Chainlink Contracts](https://github.com/smartcontractkit/chainlink) (`ChainlinkClient`, `LinkTokenInterface`, `AggregatorV3Interface`)
+- [Chainlink Contracts](https://github.com/smartcontractkit/chainlink) (`ChainlinkClient`, `LinkTokenInterface`)
 - [OpenZeppelin Contracts](https://github.com/OpenZeppelin/openzeppelin-contracts) (`Ownable`)
 - [Hardhat](https://hardhat.org/) + [Chai](https://www.chaijs.com/) (referenced by `test.js`, for running the included test)
 
@@ -76,7 +76,7 @@ npx hardhat compile
 npx hardhat test
 ```
 
-`test.js` deploys the contract with placeholder constructor arguments and exercises the `fulfill` callback path directly (simulating what a real Chainlink oracle response would do), asserting that `getPrice()` reflects the new value.
+`test.js` deploys the contract with placeholder constructor arguments (no real LINK token or oracle is deployed in this minimal example) and checks: `getPrice()` starts at zero, `fulfill()` reverts when called by anything other than the pending request's oracle (the same guard that prevents spoofed price updates in production), and `requestStockPrice`/`setOracleConfig` revert for non-owner callers.
 
 ## Deploying and using the contract
 
